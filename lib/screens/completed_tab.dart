@@ -34,23 +34,57 @@ class _CompletedTabState extends State<CompletedTab> {
                 leading: Checkbox(
                   value: todo.isCompleted,
                   onChanged: (value) {
-                    setState(() {
-                      // Toggle the completion status
-                      todo.isCompleted = !todo.isCompleted;
-                      todo.save();
+                    if (value == false) {
+                      // Show confirmation Dialog
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('Confirm'),
+                              content: const Text('Are you sure you want this Todo item to return to Current List?'),
+                              actions: <Widget>[
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop(); // Close the dialog
+                                    },
+                                    child: const Text('No'),
+                                ),
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop(); // CLose the dialog
+                                      setState(() {
+                                        // Toggle the completion status
+                                        todo.isCompleted = false;
+                                        todo.save();
 
-                      // If unchecked, move the todo item back to the Current list.
-                      if(!todo.isCompleted) {
-                        final currentListBox = Hive.box<Todo>('todos');
-                        currentListBox.add(todo);
-                      }
-                    });
+                                        // Move the todo item back to the "Current List"
+                                        final currentListBox = Hive.box<Todo>('todos');
+                                        currentListBox.add(todo);
+                                      });
+                                    }, child: const Text('Yes'),
+                                ),
+                              ],
+                            );
+                          },
+                      );
+                    } else {
+                      // Toggle the completion status
+                      todo.isCompleted = true;
+                      todo.save();
+                    }
                   },
                 ),
                 title: Text(todo.title),
                 subtitle: Text(todo.description),
                 // Add more UI elements to display other properties of the todo item
                 // (e.g., due date, due time, etc.) here
+                trailing: IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    final todoBox = Hive.box<Todo>('todos');
+                    todoBox.delete(todo.key);
+                  },
+                ),
               );
             },
           );

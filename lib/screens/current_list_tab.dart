@@ -38,7 +38,15 @@ class CurrentListTab extends StatelessWidget {
                 subtitle: Text(todo.description),
                 // Add more UI elements to display other properties of the todo item
                 // (e.g., due date, due time, etc.) here
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () {
+                    final todoBox = Hive.box<Todo>('todos');
+                    todoBox.delete(todo.key); // Delete the item from the box
+                  },
+                ),
               );
+
             },
           );
         }
