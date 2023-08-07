@@ -9,13 +9,15 @@ import 'package:todo_with_hive_db/screens/add_todo_screen.dart'; // Import the a
 
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Todo App'),
+          title: const Text('Todo App'),
           bottom: const TabBar(
             tabs: [
               Tab(text: 'Current List'),
@@ -29,16 +31,18 @@ class HomeScreen extends StatelessWidget {
             CompletedTab(),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // When the FAB is pressed, navigate to the AddTodoScreen
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AddTodoScreen()),
-            );
-          },
-          tooltip: 'Add a todo item',
-          child: const Icon(Icons.add),
+        floatingActionButton: Tooltip(
+          message: 'Add new Todo item',
+          child: FloatingActionButton.extended(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AddTodoScreen()),
+                );
+              },
+              icon: const Icon(Icons.add),
+              label: const Text('ADD'),
+          ),
         ),
       ),
     );

@@ -34,8 +34,17 @@ class _CompletedTabState extends State<CompletedTab> {
                 leading: Checkbox(
                   value: todo.isCompleted,
                   onChanged: (value) {
-                    // In this tab, we do not allow modifying the completion status
-                    // of the completed todo items. So, the onChanged function is empty.
+                    setState(() {
+                      // Toggle the completion status
+                      todo.isCompleted = !todo.isCompleted;
+                      todo.save();
+
+                      // If unchecked, move the todo item back to the Current list.
+                      if(!todo.isCompleted) {
+                        final currentListBox = Hive.box<Todo>('todos');
+                        currentListBox.add(todo);
+                      }
+                    });
                   },
                 ),
                 title: Text(todo.title),
