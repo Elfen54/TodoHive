@@ -31,7 +31,7 @@ class Todo extends HiveObject {
       this.isCompleted, {
         this.imagePath,
         this.dueDate,
-        this.dueTime
+        this.dueTime,
         required this.getReminder,
       });
 }

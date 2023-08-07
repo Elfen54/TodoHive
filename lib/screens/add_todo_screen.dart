@@ -31,7 +31,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Todo Item'),
+        title: const Text('Add Todo Item'),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -52,7 +52,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Due Date: '),
+                const Text('Due Date: '),
                 ElevatedButton(
                   onPressed: () async {
                     //Show a date picker when the button is pressed
@@ -75,7 +75,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Due Time: '),
+                const Text('Due Time: '),
                 ElevatedButton(
                     onPressed: () async {
                       //Show a time picker when the button is pressed
@@ -96,7 +96,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Get Reminder: '),
+                const Text('Get Reminder: '),
                 Checkbox(
                     value: _getReminder,
                     onChanged: (value) {
@@ -107,7 +107,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                   ),
               ],
             ),
-            /// ELevated Buttons
+            /// Elevated Buttons
             ElevatedButton(
                 onPressed: () {
                   // When the Save button is pressed, save the new todo item to the Hive box
@@ -133,7 +133,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                   _descriptionController.clear();
                   _imagePathController.clear();
                   setState(() {
-                    _setReminder = false;
+                    _getReminder = false;
                     _dueDate = null;
                     _dueTime = null;
                   });
@@ -142,7 +142,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
             ),
             ElevatedButton(
                 onPressed: () {
-                  // When the Cnacle button is pressed, Navigate back to the HomeScreen
+                  // When the Cancel button is pressed, Navigate back to the HomeScreen
                   Navigator.pop(context);
                 },
               child: const Text('Cancel'),
