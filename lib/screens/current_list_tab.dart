@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import '../models/todo_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'edit_todo.dart';
 
 class CurrentListTab extends StatelessWidget {
   @override
@@ -38,15 +39,31 @@ class CurrentListTab extends StatelessWidget {
                 subtitle: Text(todo.description),
                 // Add more UI elements to display other properties of the todo item
                 // (e.g., due date, due time, etc.) here
-                trailing: IconButton(
-                  icon: const Icon(Icons.delete),
-                  onPressed: () {
-                    final todoBox = Hive.box<Todo>('todos');
-                    todoBox.delete(todo.key); // Delete the item from the box
-                  },
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.edit), // Add the Edit icon
+                      onPressed: () {
+                        //Navigate to EditTodoScreen with the selected todo item's details
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EditTodoScreen(todo: todo),
+                          ),
+                        );
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {
+                        final todoBox = Hive.box<Todo>('todos');
+                        todoBox.delete(todo.key); // Delete the item from the box
+                      },
+                    ),
+                  ],
                 ),
               );
-
             },
           );
         }

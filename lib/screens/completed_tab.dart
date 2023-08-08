@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:todo_with_hive_db/screens/edit_todo.dart';
 import '../models/todo_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -78,12 +79,29 @@ class _CompletedTabState extends State<CompletedTab> {
                 subtitle: Text(todo.description),
                 // Add more UI elements to display other properties of the todo item
                 // (e.g., due date, due time, etc.) here
-                trailing: IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    final todoBox = Hive.box<Todo>('todos');
-                    todoBox.delete(todo.key);
-                  },
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        // Navigate to EditTodoScreen with the selected todo items details
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditTodoScreen(todo: todo),
+                            ),
+                        );
+                      },
+                      icon: const Icon(Icons.edit), // Add the Edit icon here
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {
+                        final todoBox = Hive.box<Todo>('todos');
+                        todoBox.delete(todo.key);
+                      },
+                    ),
+                  ],
                 ),
               );
             },
