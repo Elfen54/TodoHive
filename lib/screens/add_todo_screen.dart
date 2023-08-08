@@ -44,7 +44,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
               controller: _titleController,
               decoration: InputDecoration(
                 labelText: 'Title',
-                errorText: _validate ? 'Value can\'t be Empty' : null,
+                errorText: _validate ? 'Title can\'t be Empty' : null,
               ),
             ),
             const SizedBox(height: 16),
@@ -125,56 +125,101 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
             const SizedBox(height: 24),
             /// Elevated Buttons
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // When the Cancel button is pressed, Navigate back to the HomeScreen
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Cancel'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    // When the clear button is pressed, clear all the form fields
-                    _titleController.clear();
-                    _descriptionController.clear();
-                    _imagePathController.clear();
-                    setState(() {
-                      _getReminder = false;
-                      _dueDate = null;
-                      _dueTime = null;
-                    });
-                  },
-                  child: const Text('Clear'),
+                Flexible(
+                    child: InkWell (
+                      onTap: () {
+                    // Handle Cancel Button tap
+                        Navigator.pop(context);
+                      },
+                      splashColor: Colors.lightBlueAccent, // Color on  Press
+                      child: Container (
+                        padding: const EdgeInsets.all(10), // Add padding for button size
+                        color: Colors.transparent,
+                         child: const Center(
+                           child: Text(
+                             'Cancel',
+                             style: TextStyle(
+                               color: Colors.black, // Default color
+                             ),
+                           ),
+                         ),
+                        ),
+                      ),
+
+                    ),
+                Flexible(
+                    child: InkWell (
+                      onTap: () {
+                        //Handle Clear Button tap
+                        // When the clear button is pressed, clear all the form fields
+                        _titleController.clear();
+                        _descriptionController.clear();
+                        _imagePathController.clear();
+                        setState(() {
+                          _getReminder = false;
+                          _dueDate = null;
+                          _dueTime = null;
+                        });
+                      },
+                      splashColor: Colors.grey,
+                      child: Container (
+                        padding: const EdgeInsets.all(10), // Add padding for the button size
+                        color: Colors.transparent,
+                        child: const Center(
+                          child:  Text(
+                            'Clear',
+                            style: TextStyle(
+                              color: Colors.black, //Default color
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                 ),
 
-                ElevatedButton(
-                  onPressed: () {
-                    // Validate title field
-                    setState(() {
-                      _titleController.text.trim().isEmpty ? _validate = true : _validate = false;
-                    });
+                Flexible(
+                    child: InkWell (
+                      onTap: () {
+                        // Handle Save button tap
+                        setState(() {
+                          _titleController.text.trim().isEmpty ? _validate = true : _validate = false;
+                        });
 
-                    if(!_titleController.text.trim().isEmpty) {
-                      // When the Save button is pressed, save the new todo item to the Hive BOX
-                      final todoBox = Hive.box<Todo>('todos');
-                      final newTodo = Todo(
-                        _titleController.text,
-                        _descriptionController.text,
-                        false,
-                        imagePath: _imagePathController.text,
-                        dueDate: _dueDate,
-                        dueTime: _dueTime != null
-                          ? DateTime(0,0,0, _dueTime!.hour, _dueTime!.minute)
-                          : null,
-                        getReminder: _getReminder,
-                      );
-                      todoBox.add(newTodo);
-                      Navigator.pop(context);
-                    }
-                  },
-                  child:const Text('Save'),
+                        if (_titleController.text.trim().isNotEmpty) {
+                          // When the save button is pressed, save the new todo item to the hive
+                          final todoBox = Hive.box<Todo>('todos');
+                          final newTodo = Todo(
+                            _titleController.text,
+                            _descriptionController.text,
+                            false,
+                            imagePath: _imagePathController.text,
+                            dueDate: _dueDate,
+                            dueTime: _dueTime != null
+                              ? DateTime(0,0,0, _dueTime!.hour, _dueTime!.minute)
+                              : null,
+                            getReminder: _getReminder,
+                          );
+                          todoBox.add(newTodo);
+                          Navigator.pop(context);
+                        }
+                      },
+                      splashColor: Colors.lightGreenAccent,  // Color on press
+                      child: Container (
+                        padding:  const EdgeInsets.all(10), // Add padding for button size
+                        color:  Colors.transparent,
+                        child: const Center (
+                          child: Text(
+                            'Save',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                 ),
               ],
             ),
