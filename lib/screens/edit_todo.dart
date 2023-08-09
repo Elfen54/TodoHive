@@ -19,6 +19,8 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
   DateTime? _dueDate;
   TimeOfDay? _dueTime;
 
+  bool _validate = false; // Add Validation flag
+
   @override
   void initState() {
     super.initState();
@@ -46,7 +48,10 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
           children: [
             TextFormField(
               controller: _titleController,
-              decoration: const InputDecoration(labelText: 'Title'),
+              decoration: InputDecoration(
+                  labelText: 'Title',
+                  errorText: _validate ? 'Title can\'t be Empty' : null,
+              ),
             ),
             const SizedBox(height: 16),
             TextFormField(
@@ -133,20 +138,31 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
                       // Navigate Back to the Previous screen without saving
                       Navigator.pop(context);
                     },
-                    child: const Text('Cancel'),
+                    child: const Text('Back'),
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    // Implement logic to update the selected todo item
-                    // Update the todo item's properties using the controllers
-                    widget.todo.title = _titleController.text;
-                    widget.todo.description = _descriptionController.text;
-                    widget.todo.imagePath = _imagePathController.text;
-                    widget.todo.dueDate = _dueDate;
-                    widget.todo.dueTime = _dueTime != null ? DateTime(0,0,0, _dueTime!.hour, _dueTime!.minute,) : null;
-                    widget.todo.getReminder = _getReminder;
+                    setState(() {
+                      _titleController.text.trim().isEmpty
+                          ? _validate = true
+                          : _validate = false;
+                    });
 
-                    widget.todo.save(); // Save changes to the data Store
+                    if (_titleController.text.trim().isNotEmpty) {
+                      // Implement logic to update the selected todo item
+                      // Update the todo item's properties using the controllers
+                      widget.todo.title = _titleController.text;
+                      widget.todo.description = _descriptionController.text;
+                      widget.todo.imagePath = _imagePathController.text;
+                      widget.todo.dueDate = _dueDate;
+                      widget.todo.dueTime = _dueTime != null
+                          ? DateTime(0,0,0, _dueTime!.hour, _dueTime!.minute)
+                          : null;
+                      widget.todo.getReminder = _getReminder;
+
+                      widget.todo.save(); // Save changes to the data Store
+                      Navigator.pop(context); // Return to previous screen
+                    }
                   },
                   child: const Text('Save Changes'),
                 ),
