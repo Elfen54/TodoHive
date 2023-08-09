@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/todo_model.dart';
+import 'home_screen.dart';
 
 class EditTodoScreen extends StatefulWidget {
   final Todo todo; //Pass the selected item to the screen
@@ -122,21 +123,34 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
                   ),
               ],
             ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-                onPressed: () {
-                  // Implement logic to update the selected todo item
-                  // Update the todo item's properties using the controllers
-                  widget.todo.title = _titleController.text;
-                  widget.todo.description = _descriptionController.text;
-                  widget.todo.imagePath = _imagePathController.text;
-                  widget.todo.dueDate = _dueDate;
-                  widget.todo.dueTime = _dueTime != null ? DateTime(0,0,0, _dueTime!.hour, _dueTime!.minute,) : null;
-                  widget.todo.getReminder = _getReminder;
 
-                  widget.todo.save(); // Save changes to the data Store
-                }, 
-                child: const Text('Save Changes'),
+            const SizedBox(height: 16),
+            Row (
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      // Navigate Back to the Previous screen without saving
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Cancel'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    // Implement logic to update the selected todo item
+                    // Update the todo item's properties using the controllers
+                    widget.todo.title = _titleController.text;
+                    widget.todo.description = _descriptionController.text;
+                    widget.todo.imagePath = _imagePathController.text;
+                    widget.todo.dueDate = _dueDate;
+                    widget.todo.dueTime = _dueTime != null ? DateTime(0,0,0, _dueTime!.hour, _dueTime!.minute,) : null;
+                    widget.todo.getReminder = _getReminder;
+
+                    widget.todo.save(); // Save changes to the data Store
+                  },
+                  child: const Text('Save Changes'),
+                ),
+              ],
             ),
           ],
         ),
