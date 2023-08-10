@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:todo_with_hive_db/screens/edit_todo.dart';
+import 'package:todo_with_hive_db/screens/todo_preview.dart';
 import '../models/todo_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -32,6 +33,14 @@ class _CompletedTabState extends State<CompletedTab> {
             itemBuilder: (context, index) {
               final todo = completedList[index];
               return ListTile(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return TodoPreview(todo: todo);
+                      },
+                  );
+                },
                 leading: Checkbox(
                   value: todo.isCompleted,
                   onChanged: (value) {

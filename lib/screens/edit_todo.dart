@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import '../models/todo_model.dart';
-import 'home_screen.dart';
+// import 'home_screen.dart';
 
 class EditTodoScreen extends StatefulWidget {
   final Todo todo; //Pass the selected item to the screen
 
-  EditTodoScreen({super.key, required this.todo});
+  const EditTodoScreen({super.key, required this.todo});
 
   @override
   _EditTodoScreenState createState() => _EditTodoScreenState();
@@ -131,7 +131,7 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
 
             const SizedBox(height: 16),
             Row (
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
                     onPressed: () {
