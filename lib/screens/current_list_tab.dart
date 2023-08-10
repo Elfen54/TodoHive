@@ -36,6 +36,8 @@ class CurrentListTab extends StatelessWidget {
                       },
                     );
                   },
+                tileColor: Colors.transparent,
+                hoverColor: Colors.green.shade300,
                 leading: Checkbox(
                   value: todo.isCompleted,
                   onChanged: (value) {

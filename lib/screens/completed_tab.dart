@@ -41,6 +41,8 @@ class _CompletedTabState extends State<CompletedTab> {
                       },
                   );
                 },
+                tileColor: Colors.transparent,
+                hoverColor: Colors.deepPurpleAccent.shade100,
                 leading: Checkbox(
                   value: todo.isCompleted,
                   onChanged: (value) {
