@@ -16,7 +16,7 @@ class TodoPreview extends StatelessWidget {
       : 'N/A';
     // Format dueTIme using TimeOfDay properties
     String formattedDueTime = todo.dueTime != null
-      ? '${todo.dueTime!.hour}:${todo.dueTime!.minute}'
+      ? DateFormat('hh:mm a').format(todo.dueTime!)
       : 'N/A';
 
     return AlertDialog(
