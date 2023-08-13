@@ -6,6 +6,8 @@ import '../models/todo_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class CompletedTab extends StatefulWidget {
+  const CompletedTab({super.key});
+
   @override
   _CompletedTabState createState() => _CompletedTabState();
 }
