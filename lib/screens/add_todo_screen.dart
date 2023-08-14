@@ -134,7 +134,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                     // Handle Cancel Button tap
                         Navigator.pop(context);
                       },
-                      splashColor: Colors.lightBlueAccent, // Color on  Press
+                      splashColor: Colors.red.shade400, // Color on  Press
                       child: Container (
                         padding: const EdgeInsets.all(10), // Add padding for button size
                         color: Colors.transparent,

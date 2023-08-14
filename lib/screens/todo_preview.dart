@@ -3,18 +3,19 @@ import 'package:intl/intl.dart';
 import '../models/todo_model.dart';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
+// import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 class TodoPreview extends StatelessWidget {
   final Todo todo;
 
-  const TodoPreview({super.key, required this.todo});
+  const TodoPreview({Key? key, required this.todo}) : super(key: key);
 
   Future<void> _showNotification() async {
     const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
       'channel_id',
       'channel_name',
-      // 'channel_description',
+      //'channel_description',
       importance: Importance.high,
     );
     const DarwinNotificationDetails darwinDetails = DarwinNotificationDetails();
@@ -26,50 +27,53 @@ class TodoPreview extends StatelessWidget {
 
     final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-    await flutterLocalNotificationsPlugin.show(
-        0,  // Notification ID
-        'Todo Reminder', // Title
-        'Don\'t forget about your todo!', // Body
-        notificationDetails,
+    // Schedule the notification
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      0, // Notification ID
+      'Todo Reminder', // Title
+      "Don't forget about your todo!", // Body
+      tz.TZDateTime.from(todo.dueDate!.add(Duration(hours: todo.dueTime!.hour, minutes: todo.dueTime!.minute)), tz.local), // Schedule time
+      notificationDetails,
+      uiLocalNotificationDateInterpretation:
+      UILocalNotificationDateInterpretation.absoluteTime,
+      matchDateTimeComponents: DateTimeComponents.time,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-
     // Format the dueDate using DateFormat
     String formattedDueDate = todo.dueDate != null
-      ? DateFormat('dd-MM-yyyy').format(todo.dueDate!)
-      : 'N/A';
+        ? DateFormat('dd-MM-yyyy').format(todo.dueDate!)
+        : 'N/A';
     // Format dueTIme using TimeOfDay properties
     String formattedDueTime = todo.dueTime != null
-      ? DateFormat('hh:mm a').format(todo.dueTime!)
-      : 'N/A';
+        ? DateFormat('hh:mm a').format(DateTime(0, 0, 0, todo.dueTime!.hour, todo.dueTime!.minute))
+        : 'N/A';
 
     return AlertDialog(
       title: Text(todo.title),
       content: SingleChildScrollView(
-        child: Column (
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(todo.description),
             const SizedBox(height: 8.0),
-            Text('More Details : ${todo.imagePath ?? 'N/A'}'), // Displaying imgPath or 'N/A' if null
+            Text('More Details : ${todo.imagePath ?? 'N/A'}'),
+            // Displaying imgPath or 'N/A' if null
             Text('Due Date : $formattedDueDate'),
             Text('Due Time : $formattedDueTime'),
             Text('Get Reminder : ${todo.getReminder ? 'Yes' : 'No'}'),
-            Checkbox(
-                value: todo.getReminder,
-                onChanged: (value) async{
-                  // Update the reminder status of the todo item
-                  todo.getReminder = value!;
-                  todo.save();
-
-                  if (value) {
-                    _showNotification();
-                  }
-                }
-            )
+            Row( // Wrap in a Row to align Get Reminder text and Checkbox
+              children: [
+                Text('Get Reminder : ${todo.getReminder ? 'Yes' : 'No'}'),
+                const SizedBox(width: 8.0),
+                Checkbox(
+                  value: todo.getReminder,
+                  onChanged: null,
+                ),
+              ],
+            ),
           ],
         ),
       ),
