@@ -143,6 +143,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                              'Cancel',
                              style: TextStyle(
                                color: Colors.black, // Default color
+                               fontSize: 18,
                              ),
                            ),
                          ),
@@ -173,6 +174,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                             'Clear',
                             style: TextStyle(
                               color: Colors.black, //Default color
+                              fontSize: 18,
                             ),
                           ),
                         ),
@@ -215,6 +217,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                             'Save',
                             style: TextStyle(
                               color: Colors.black,
+                              fontSize: 18,
                             ),
                           ),
                         ),

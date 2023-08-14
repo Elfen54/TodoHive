@@ -63,7 +63,7 @@ class TodoPreview extends StatelessWidget {
             // Displaying imgPath or 'N/A' if null
             Text('Due Date : $formattedDueDate'),
             Text('Due Time : $formattedDueTime'),
-            Text('Get Reminder : ${todo.getReminder ? 'Yes' : 'No'}'),
+            //Text('Get Reminder : ${todo.getReminder ? 'Yes' : 'No'}'),
             Row( // Wrap in a Row to align Get Reminder text and Checkbox
               children: [
                 Text('Get Reminder : ${todo.getReminder ? 'Yes' : 'No'}'),
